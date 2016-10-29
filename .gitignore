@@ -34,7 +34,17 @@ captures/
 
 # Intellij
 *.iml
-.idea/workspace.xml
+.idea
 
 # Keystore files
 *.jks
+
+# Eclipse project files
+.classpath
+.project
+
+# Windows thumbnail db
+Thumbs.db
+
+# OSX files
+.DS_Store

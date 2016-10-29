@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".LVFragment">
+    <item
+        android:id="@+id/menu_RV"
+        android:orderInCategory="100"
+        android:title="@string/menu_RV"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/refreshFr"
+        android:orderInCategory="100"
+        android:title="@string/menu_refresh"
+        app:showAsAction="never"/>
+</menu>
