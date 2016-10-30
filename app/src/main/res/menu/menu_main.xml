@@ -6,10 +6,10 @@
         android:id="@+id/menu_LV"
         android:orderInCategory="100"
         android:title="@string/menu_LV"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
     <item
         android:id="@+id/refreshMain"
         android:orderInCategory="100"
         android:title="@string/menu_refresh"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 </menu>
