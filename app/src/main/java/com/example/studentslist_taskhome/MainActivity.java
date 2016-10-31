@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,6 +16,7 @@ import static com.example.studentslist_taskhome.R.id.recyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
+    RVAdapter adapter;
     private List<Students> students;
     private RecyclerView rv;
 
@@ -29,11 +31,34 @@ public class MainActivity extends AppCompatActivity {
         rv.setLayoutManager(llm);
         rv.setHasFixedSize(true);
 
-//        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-//        rv.setItemAnimator(itemAnimator);
-
         initialiseData();
         initializeAdapter();
+
+        adapter = new RVAdapter(this, students);
+        rv.setAdapter(adapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+        itemTouchHelper.attachToRecyclerView(rv);
+    }
+
+    private ItemTouchHelper.Callback createHelperCallback() {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
+                        adapter.remove(viewHolder.itemView, viewHolder.getAdapterPosition());
+
+                    }
+                };
+        return simpleItemTouchCallback;
     }
 
     @Override
@@ -45,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.menu_LV:
                 Intent intent = new Intent(this, Main2Activity.class);
                 startActivity(intent);
@@ -144,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.limar));
     }
 
-    private void initializeAdapter(){
+    private void initializeAdapter() {
         RVAdapter adapter = new RVAdapter(this, students);
         rv.setAdapter(adapter);
     }

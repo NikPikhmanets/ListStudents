@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StudentsList_taskHome</string>
+    <string name="app_name">ListStudents</string>
     <string name="git_button">GIT</string>
     <string name="nameStudents">nameStudents</string>
 

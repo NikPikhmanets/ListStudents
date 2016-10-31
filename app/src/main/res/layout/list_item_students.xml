@@ -3,17 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="2dp"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
+    android:background="#e2e2e2"
+    android:orientation="horizontal"
     android:padding="4dp">
 
-    <LinearLayout
-        android:id="@+id/itemLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#e2e2e2"
-        android:orientation="horizontal"
-        android:padding="4dp">
+    <!--<LinearLayout-->
+        <!--android:id="@+id/itemLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="#e2e2e2"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="4dp">-->
 
         <ImageView
             android:id="@+id/img"
@@ -25,7 +25,7 @@
         <TextView
             android:id="@+id/studentName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="20"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
@@ -38,5 +38,5 @@
             android:layout_weight="40"
             android:onClick="onClick"
             android:text="@string/git_button"/>
-    </LinearLayout>
+    <!--</LinearLayout>-->
 </LinearLayout>
