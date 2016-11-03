@@ -1,8 +1,7 @@
-package com.example.studentslist_taskhome;
+package com.example.studentslist;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -12,9 +11,10 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.studentslist_taskhome.R.id.recyclerView;
+import static com.example.studentslist.R.id.recyclerView;
 
-public class MainActivity extends AppCompatActivity {
+
+public class RecyclerViewActivity extends MainActivity {
 
     RVAdapter adapter;
     private List<Students> students;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_recyclerview_main);
         rv = (RecyclerView) findViewById(recyclerView);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         rv.setHasFixedSize(true);
 
         initialiseData();
-        initializeAdapter();
 
         adapter = new RVAdapter(this, students);
         rv.setAdapter(adapter);
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
 
-                        adapter.remove(viewHolder.itemView, viewHolder.getAdapterPosition());
+                        adapter.removeItem(viewHolder.itemView, viewHolder.getAdapterPosition());
 
                     }
                 };
@@ -72,12 +71,11 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.menu_LV:
-                Intent intent = new Intent(this, Main2Activity.class);
+                Intent intent = new Intent(this, ListViewActivity.class);
                 startActivity(intent);
                 break;
             case R.id.refreshMain:
                 initialiseData();
-                initializeAdapter();
                 break;
         }
 
@@ -166,10 +164,5 @@ public class MainActivity extends AppCompatActivity {
                 "https://plus.google.com/109227554979939957830",
                 "https://github.com/VovanNec",
                 R.drawable.limar));
-    }
-
-    private void initializeAdapter() {
-        RVAdapter adapter = new RVAdapter(this, students);
-        rv.setAdapter(adapter);
     }
 }
