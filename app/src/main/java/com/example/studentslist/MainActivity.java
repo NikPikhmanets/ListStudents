@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.example.studentslist.listview.ListViewActivity;
+import com.example.studentslist.recyclerview.RecyclerViewActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    public boolean api;
 
     Button buttonListView;
     Button buttonRecyclerView;
@@ -37,23 +39,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.start_lv_activity:
-                api = false;
+//                Toast.makeText(getApplicationContext(), "Sorry, поки що не доробив((", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, ListViewActivity.class);
+                intent.putExtra("api", false);
                 startActivity(intent);
                 break;
             case R.id.start_rv_activity:
-                api = false;
                 intent = new Intent(this, RecyclerViewActivity.class);
+                intent.putExtra("api", false);
                 startActivity(intent);
                 break;
             case R.id.start_lv_activity_api:
-                api = true;
-                intent = new Intent(this, ListViewActivity.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "Sorry, поки що не доробив((", Toast.LENGTH_SHORT).show();
+//                intent = new Intent(this, ListViewActivity.class);
+//                intent.putExtra("api", true);
+//                startActivity(intent);
                 break;
             case R.id.start_rv_activity_api:
-                api = true;
                 intent = new Intent(this, RecyclerViewActivity.class);
+                intent.putExtra("api", true);
                 startActivity(intent);
                 break;
         }

@@ -1,10 +1,13 @@
-package com.example.studentslist;
+package com.example.studentslist.listview;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.studentslist.MainActivity;
+import com.example.studentslist.R;
 
 public class ListViewActivity extends MainActivity {
 
