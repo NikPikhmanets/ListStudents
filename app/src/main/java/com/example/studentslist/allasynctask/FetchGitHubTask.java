@@ -35,19 +35,18 @@ public class FetchGitHubTask extends AsyncTask<String, Void, String[]> {
             while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line).append("\n");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
-            }
+        }
 
         return getAccountDataFromJSON(stringBuilder.toString());
     }
 
-    private String[] getAccountDataFromJSON(String info){
+    private String[] getAccountDataFromJSON(String info) {
 
         String[] infoList = new String[12];
 
@@ -67,19 +66,19 @@ public class FetchGitHubTask extends AsyncTask<String, Void, String[]> {
         try {
             JSONObject infoJson = new JSONObject(info);
 
-            infoList[0]= infoJson.getString(AVATAR_URL);
-            infoList[1]= infoJson.getString(NAME);
+            infoList[0] = infoJson.getString(AVATAR_URL);
+            infoList[1] = infoJson.getString(NAME);
 
-            infoList[2]= "LOGIN *" + infoJson.getString(LOGIN);
-            infoList[3]= "HTML_URL *" + infoJson.getString(HTML_URL);
-            infoList[4]= "COMPANY *" + infoJson.getString(COMPANY);
-            infoList[5]= "BLOG *" + infoJson.getString(BLOG);
-            infoList[6]= "LOCATION *" + infoJson.getString(LOCATION);
-            infoList[7]= "PUBLIC_REPOS *" + infoJson.getString(PUBLIC_REPOS);
-            infoList[8]= "FOLLOWERS *" + infoJson.getString(FOLLOWERS);
-            infoList[9]= "FOLLOWING *" + infoJson.getString(FOLLOWING);
-            infoList[10]= "CREATED *" + infoJson.getString(CREATED);
-            infoList[11]= "UPDATE *" + infoJson.getString(UPDATE);
+            infoList[2] = infoJson.getString(LOGIN);
+            infoList[3] = infoJson.getString(HTML_URL);
+            infoList[4] = infoJson.getString(COMPANY);
+            infoList[5] = infoJson.getString(BLOG);
+            infoList[6] = infoJson.getString(LOCATION);
+            infoList[7] = infoJson.getString(PUBLIC_REPOS);
+            infoList[8] = infoJson.getString(FOLLOWERS);
+            infoList[9] = infoJson.getString(FOLLOWING);
+            infoList[10] = infoJson.getString(CREATED);
+            infoList[11] = infoJson.getString(UPDATE);
         } catch (JSONException e) {
             e.printStackTrace();
         }

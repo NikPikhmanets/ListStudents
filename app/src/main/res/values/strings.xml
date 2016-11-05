@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ListStudents</string>
+    <string name="app_name">GH16-Pikhmanets-02-List-ListStudents</string>
     <string name="app_nameRV">ListStudents(RecyclerView)</string>
     <string name="app_nameLV">ListStudents(ListView)</string>
 

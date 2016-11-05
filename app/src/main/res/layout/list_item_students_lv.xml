@@ -3,31 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="2dp"
-    android:background="#e2e2e2"
+    android:background="#b4b4b4"
     android:orientation="horizontal"
-    android:padding="4dp">
+    android:padding="4dp"
+    android:layout_margin="8dp"
+    android:id="@+id/item_layout">
 
-    <ImageView
-        android:id="@+id/img"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="40"
-        android:scaleType="centerCrop" />
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="40"
+            android:scaleType="centerCrop" />
 
-    <TextView
-        android:id="@+id/studentName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="20"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:text="@string/nameStudents" />
+        <TextView
+            android:id="@+id/studentName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="@string/nameStudents" />
 
-    <Button
-        android:id="@+id/gitBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="40"
-        android:onClick="onClick"
-        android:text="@string/git_button" />
+        <Button
+            android:id="@+id/gitBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            android:onClick="onClick"
+            android:text="@string/git_button" />
+
 </LinearLayout>

@@ -18,7 +18,7 @@ public class FetchGoogleTask extends AsyncTask <String, Void, String[]> {
 
         String googlePlusLink = "https://www.googleapis.com/plus/v1/people/";
         String KEY_PARAM = "key";
-        String GOOGLE_API_KEY = "AIzaSyBp-X7QdQ-DeABFxFFTUYOkHeLufm-iR80";
+        String GOOGLE_API_KEY = "AIzaSyA-mwyNqHCvmMKEwa_a3OLP1JXz_f8th9g";
 
         Uri uri = Uri.parse(googlePlusLink).buildUpon().appendPath(params[0]).appendQueryParameter(KEY_PARAM, GOOGLE_API_KEY).build();
         StringBuilder stringBuilder = new StringBuilder();
@@ -48,25 +48,28 @@ public class FetchGoogleTask extends AsyncTask <String, Void, String[]> {
         return getAccountDataFromJSON(stringBuilder.toString());
     }
 
-    private String[] getAccountDataFromJSON(String accountJSONStr){
-        final String OWM_IMAGE_LIST = "image";
-        final String OWM_NAME_LIST = "name";
-        final String OWM_SURNAME = "familyName";
-        final String OWM_NAME = "givenName";
-        String[] studentInfo = new String[3];
+    private String[] getAccountDataFromJSON(String info){
+
+        String[] infoList = new String[12];
+
+        final String AVATAR_URL = "url";
+        final String HTML_URL = "url";
+        final String NAME = "displayName";
+        final String circle = "circledByCount";
 
         try {
-            JSONObject jsonObject = new JSONObject(accountJSONStr);
-            JSONObject image = jsonObject.getJSONObject(OWM_IMAGE_LIST);
-            String OWM_IMAGE_URL = "url";
-            studentInfo[0] = image.getString(OWM_IMAGE_URL);
+            JSONObject infoJson = new JSONObject(info);
 
-            JSONObject student = jsonObject.getJSONObject(OWM_NAME_LIST);
-            studentInfo[1] = student.getString(OWM_NAME);
-            studentInfo[2] = student.getString(OWM_SURNAME);
+            JSONObject imageObject = infoJson.getJSONObject("image");
+            infoList[0] = imageObject.getString(AVATAR_URL);
+            infoList[1] = infoJson.getString(NAME);
+            infoList[2] = infoJson.getString(HTML_URL);
+            infoList[3] = infoJson.getString(circle);
+
         } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return studentInfo;
+        return infoList;
     }
 
     @Override

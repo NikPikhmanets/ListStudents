@@ -70,7 +70,6 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.Stude
         public void onClick(View v) {
 
             Intent intent;
-
             if (v.getId() == itemView.getId()) {
 
                 if(api){

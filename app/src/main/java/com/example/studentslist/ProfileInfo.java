@@ -1,7 +1,6 @@
 package com.example.studentslist;
 
 
-
 public class ProfileInfo {
     private String key;
     private String description;

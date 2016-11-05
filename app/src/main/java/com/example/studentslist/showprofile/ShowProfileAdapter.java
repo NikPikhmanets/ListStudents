@@ -12,9 +12,9 @@ import com.example.studentslist.R;
 
 import java.util.List;
 
-public class ShowProfileAdapter extends ArrayAdapter<ProfileInfo> {
+class ShowProfileAdapter extends ArrayAdapter<ProfileInfo> {
 
-    public ShowProfileAdapter(Context context, List<ProfileInfo> objects) {
+    ShowProfileAdapter(Context context, List<ProfileInfo> objects) {
         super(context, 0, objects);
     }
 
