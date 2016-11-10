@@ -31,7 +31,6 @@
     <string name="menu_LV">Show LisrView</string>
     <string name="menu_refresh">Refresh List</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="btn_start_rv">RecyclerView</string>
     <string name="btn_start_lv">ListView</string>

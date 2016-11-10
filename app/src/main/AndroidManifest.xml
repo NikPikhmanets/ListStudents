@@ -27,8 +27,8 @@
             android:label="@string/app_nameLV" />
         <activity
             android:name=".showprofile.ShowProfileActivity"
-            android:label="Profile">
-        </activity>
+            android:label="Profile"></activity>
+        <activity android:name=".ImageActivity"></activity>
     </application>
 
 </manifest>

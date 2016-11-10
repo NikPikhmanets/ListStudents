@@ -1,6 +1,8 @@
 package com.example.studentslist.listview;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,25 +13,24 @@ import android.widget.TextView;
 
 import com.example.studentslist.R;
 import com.example.studentslist.Students;
+import com.example.studentslist.showprofile.ShowProfileActivity;
 
 import java.util.List;
 
 import static com.example.studentslist.R.id.gitBtn;
 
 
-class ListViewAdapter extends BaseAdapter implements View.OnClickListener {
+class ListViewAdapter extends BaseAdapter {
 
-    private Context context;
     private LayoutInflater lInflater;
     private List<Students> students;
+    private boolean api;
 
-    private  int itemPos;
-    ListViewAdapter(Context context, List<Students> students) {
-
-        this.context = context;
+    ListViewAdapter(Context context, List<Students> students, boolean api) {
         this.students = students;
         lInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.api = api;
     }
 
     @Override
@@ -47,9 +48,8 @@ class ListViewAdapter extends BaseAdapter implements View.OnClickListener {
         return position;
     }
 
-
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
 
         View view = convertView;
         if (view == null) {
@@ -59,30 +59,47 @@ class ListViewAdapter extends BaseAdapter implements View.OnClickListener {
         ((ImageView) view.findViewById(R.id.img)).setImageResource(students.get(position).photo);
         ((TextView) view.findViewById(R.id.studentName)).setText(students.get(position).name);
 
-        Button gitButton = (Button) view.findViewById(gitBtn);
-        gitButton.setOnClickListener(this);
+        Button gitButton = (Button)view.findViewById(gitBtn);
 
-        itemPos = position;
+        gitButton.setOnClickListener(new View.OnClickListener() {
+
+            Intent intent;
+            @Override
+            public void onClick(View v) {
+
+                if(api){
+                    intent = new Intent(v.getContext(), ShowProfileActivity.class);
+                    intent.putExtra("googlePlusID", students.get(position).googlePlusID);
+                    v.getContext().startActivity(intent);
+                }
+                else {
+                    Uri address = Uri.parse("https://github.com/" + students.get(position).gitHubID);
+                    Intent link = new Intent(Intent.ACTION_VIEW, address);
+                    v.getContext().startActivity(link);
+                }
+            }
+        });
+
+        view.setOnClickListener(new View.OnClickListener() {
+
+            Intent intent;
+            @Override
+            public void onClick(View v) {
+
+                if (api) {
+
+                    intent = new Intent(v.getContext(), ShowProfileActivity.class);
+                    intent.putExtra("gitHubID", students.get(position).gitHubID);
+                    v.getContext().startActivity(intent);
+                } else {
+
+                    Uri address = Uri.parse("https://plus.google.com/" + students.get(position).googlePlusID);
+                    Intent link = new Intent(Intent.ACTION_VIEW, address);
+                    v.getContext().startActivity(link);
+                }
+            }
+        });
+
         return view;
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
-//        Button gitButton = (Button) v.findViewById(gitBtn);
-//        LinearLayout ll = (LinearLayout)v.findViewById(R.id.item_layout);
-//        if (v.getId() == ll.getId()) {
-//
-//            Uri address = Uri.parse("https://plus.google.com/" + students.get(itemPos).googlePlusID);
-//            Intent link = new Intent(Intent.ACTION_VIEW, address);
-//            context.startActivity(link);
-//
-//        } else if (v.getId() == gitButton.getId()) {
-//
-//            Uri address = Uri.parse("https://github.com/" + students.get(itemPos).gitHubID);
-//            Intent link = new Intent(Intent.ACTION_VIEW, address);
-//            context.startActivity(link);
-//        }
     }
 }

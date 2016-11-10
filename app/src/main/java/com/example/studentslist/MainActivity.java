@@ -1,6 +1,7 @@
 package com.example.studentslist;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button buttonListViewApi;
     Button buttonRecyclerViewApi;
 
+    private EventsReceiver myReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonRecyclerView.setOnClickListener(this);
         buttonListViewApi.setOnClickListener(this);
         buttonRecyclerViewApi.setOnClickListener(this);
+
+        myReceiver = new EventsReceiver();
     }
 
     public void onClick(View v) {
@@ -39,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.start_lv_activity:
-//                Toast.makeText(getApplicationContext(), "Sorry, поки що не доробив((", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, ListViewActivity.class);
                 intent.putExtra("api", false);
                 startActivity(intent);
@@ -50,10 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.start_lv_activity_api:
-                Toast.makeText(getApplicationContext(), "Sorry, поки що не доробив((", Toast.LENGTH_SHORT).show();
-//                intent = new Intent(this, ListViewActivity.class);
-//                intent.putExtra("api", true);
-//                startActivity(intent);
+                intent = new Intent(this, ListViewActivity.class);
+                intent.putExtra("api", true);
+                startActivity(intent);
                 break;
             case R.id.start_rv_activity_api:
                 intent = new Intent(this, RecyclerViewActivity.class);
@@ -61,5 +64,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
+        registerReceiver(myReceiver, filter);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(myReceiver);
+        super.onPause();
     }
 }
