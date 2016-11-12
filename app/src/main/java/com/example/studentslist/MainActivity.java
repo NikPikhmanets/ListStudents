@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.studentslist.listview.ListViewActivity;
 import com.example.studentslist.recyclerview.RecyclerViewActivity;
@@ -19,6 +18,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button buttonListViewApi;
     Button buttonRecyclerViewApi;
 
+    Button imageButton;
+
     private EventsReceiver myReceiver;
 
     @Override
@@ -30,13 +31,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonRecyclerView = (Button) findViewById(R.id.start_rv_activity);
         buttonListViewApi = (Button) findViewById(R.id.start_lv_activity_api);
         buttonRecyclerViewApi = (Button) findViewById(R.id.start_rv_activity_api);
+        imageButton = (Button) findViewById(R.id.image_button);
+
 
         buttonListView.setOnClickListener(this);
         buttonRecyclerView.setOnClickListener(this);
         buttonListViewApi.setOnClickListener(this);
         buttonRecyclerViewApi.setOnClickListener(this);
+        imageButton.setOnClickListener(this);
 
         myReceiver = new EventsReceiver();
+
+//        Intent intent = getIntent();
+//        if (intent.getAction() != null) {
+//            Toast.makeText(this, "opa", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     public void onClick(View v) {
@@ -61,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.start_rv_activity_api:
                 intent = new Intent(this, RecyclerViewActivity.class);
                 intent.putExtra("api", true);
+                startActivity(intent);
+                break;
+            case R.id.image_button:
+                intent = new Intent(this, ImageActivity.class);
                 startActivity(intent);
                 break;
         }

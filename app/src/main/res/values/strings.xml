@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GH16-Pikhmanets-02-List-ListStudents</string>
+    <string name="app_name">GH16-Pikhmanets-ListStudents</string>
     <string name="app_nameRV">ListStudents(RecyclerView)</string>
     <string name="app_nameLV">ListStudents(ListView)</string>
 
@@ -39,4 +39,9 @@
     <string name="btn_start_listview_api">ListView</string>
     <string name="btn_start_recyclerview_api">RecyclerView</string>
     <string name="username">UserName</string>
+    <string name="third_hometask">Third hometask</string>
+    <string name="image_from_gallery_camera">Image from Gallery/Camera</string>
+    <string name="touch_me">Touch me!</string>
+    <string name="make_photo_camera">Сделать снимок камерой</string>
+    <string name="load_from_gallery">Загрузить из галереи</string>
 </resources>

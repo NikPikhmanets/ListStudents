@@ -34,16 +34,10 @@ public class ShowProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-//        adapter = new ArrayAdapter<>(
-//                getActivity(),                      // ссылку на активность через метод getActivity()
-//                R.layout.list_item_details,
-//                R.id.itemDescription,
-//                new ArrayList<String>());
-
         View rootView = inflater.inflate(R.layout.fragment_show_profile, container, false); //из содержимого layout-файла создать View-элемент
 
         ListView listV = (ListView) rootView.findViewById(R.id.list_description_profile);
-//        listV.setAdapter(adapter);
+
 
         String googlePlusID = getActivity().getIntent().getStringExtra("googlePlusID");
         String gitHubID = getActivity().getIntent().getStringExtra("gitHubID");

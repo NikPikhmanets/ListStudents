@@ -16,14 +16,14 @@ public class EventsReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
             int state = intent.getIntExtra("state", -1);
             int microphone = intent.getIntExtra("microphone", -1);
-            String messagToast;
+            String messageToast;
             String endMessage;
 
             if (microphone == 0) {
-                messagToast = "Наушники";
+                messageToast = "Наушники";
                 endMessage = "ы!";
             } else {
-                messagToast = "Гарнитура";
+                messageToast = "Гарнитура";
                 endMessage = "а!";
             }
 
@@ -32,13 +32,13 @@ public class EventsReceiver extends BroadcastReceiver {
                     if (flag) {
 
                         flag = false;
-                        Toast.makeText(context, messagToast + " отключен" + endMessage, Toast.LENGTH_LONG)
+                        Toast.makeText(context, messageToast + " отключен" + endMessage, Toast.LENGTH_SHORT)
                                 .show();
                     }
                     break;
                 case 1:
                     flag = true;
-                    Toast.makeText(context, messagToast + " подключен" + endMessage, Toast.LENGTH_LONG)
+                    Toast.makeText(context, messageToast + " подключен" + endMessage, Toast.LENGTH_SHORT)
                             .show();
                     break;
             }
