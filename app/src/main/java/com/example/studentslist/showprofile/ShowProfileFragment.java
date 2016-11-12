@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,7 +21,6 @@ import java.util.List;
 
 public class ShowProfileFragment extends Fragment {
 
-    ArrayAdapter<String> adapter;
     ShowProfileAdapter profileAdapter;
 
     @Override
@@ -34,10 +32,11 @@ public class ShowProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_show_profile, container, false); //из содержимого layout-файла создать View-элемент
-
+        View rootView = inflater.inflate(R.layout.fragment_show_profile, container, false);
         ListView listV = (ListView) rootView.findViewById(R.id.list_description_profile);
 
+
+        TextView userName = (TextView) rootView.findViewById(R.id.user_name);
 
         String googlePlusID = getActivity().getIntent().getStringExtra("googlePlusID");
         String gitHubID = getActivity().getIntent().getStringExtra("gitHubID");
@@ -49,7 +48,7 @@ public class ShowProfileFragment extends Fragment {
             fetchGoogleTask.execute(googlePlusID);
             try {
                 studentInfo = fetchGoogleTask.get();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
 
         } else if (gitHubID != null) {
@@ -59,9 +58,11 @@ public class ShowProfileFragment extends Fragment {
 
             try {
                 studentInfo = fetchGitHubTask.get();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
+
+
         if (studentInfo != null) {
             if (!studentInfo[0].equals("null")) {
                 FetchImageTask fetchImageTask = new FetchImageTask(studentInfo[0]);
@@ -70,13 +71,11 @@ public class ShowProfileFragment extends Fragment {
                     Bitmap bitmap = fetchImageTask.get();
                     ImageView imageView = (ImageView) rootView.findViewById(R.id.avatar);
                     imageView.setImageBitmap(bitmap);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
             }
-            TextView userName = (TextView) rootView.findViewById(R.id.user_name);
-            userName.setText(studentInfo[1]);
 
-//            adapter.clear();
+            userName.setText(studentInfo[1]);
 
             List<ProfileInfo> info = new ArrayList<>();
             if (googlePlusID != null) {
@@ -84,11 +83,18 @@ public class ShowProfileFragment extends Fragment {
                     info.add(new ProfileInfo("Ссылка на страницку", studentInfo[2]));
                     info.add(new ProfileInfo("Круги", studentInfo[3]));
 
-//                for (int i = 2; i < 4; i++) {
-//                    adapter.add(studentInfo[i]);
-//                }
-            } else {
+//                    if (!studentInfo[4].equals("null")) {
+//                        FetchImageTask fetchImageTask = new FetchImageTask(studentInfo[0]);
+//                        fetchImageTask.execute();
+//                        try {
+//                            Bitmap bitmap = fetchImageTask.get();
+//                            ImageView imageView = (ImageView) rootView.findViewById(R.id.cover_image);
+//                            imageView.setImageBitmap(bitmap);
+//                        } catch (Exception ignored) {
+//                        }
+//                    }
 
+            } else {
 
                 info.add(new ProfileInfo("LOGIN", studentInfo[2]));
                 info.add(new ProfileInfo("GIT link", studentInfo[3]));
@@ -100,16 +106,10 @@ public class ShowProfileFragment extends Fragment {
                 info.add(new ProfileInfo("FOLLOWING", studentInfo[9]));
                 info.add(new ProfileInfo("CREATED", studentInfo[10]));
                 info.add(new ProfileInfo("UPDATE", studentInfo[11]));
-
-
-//                for (int i = 2; i < 12; i++) {
-//                    adapter.add(studentInfo[i]);
-//                }
             }
 
             profileAdapter = new ShowProfileAdapter(getContext(), info);
             listV.setAdapter(profileAdapter);
-
         }
         return rootView;
     }

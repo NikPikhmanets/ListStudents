@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class FetchGoogleTask extends AsyncTask <String, Void, String[]> {
+public class FetchGoogleTask extends AsyncTask<String, Void, String[]> {
 
     @Override
     protected String[] doInBackground(String... params) {
@@ -38,9 +38,8 @@ public class FetchGoogleTask extends AsyncTask <String, Void, String[]> {
                 stringBuilder.append(line).append("\n");
             }
 
-        }
-        catch (Exception ignored) {}
-        finally {
+        } catch (Exception ignored) {
+        } finally {
             if (urlConnection != null)
                 urlConnection.disconnect();
         }
@@ -48,14 +47,15 @@ public class FetchGoogleTask extends AsyncTask <String, Void, String[]> {
         return getAccountDataFromJSON(stringBuilder.toString());
     }
 
-    private String[] getAccountDataFromJSON(String info){
+    private String[] getAccountDataFromJSON(String info) {
 
-        String[] infoList = new String[12];
+        String[] infoList = new String[13];
 
         final String AVATAR_URL = "url";
         final String HTML_URL = "url";
         final String NAME = "displayName";
         final String circle = "circledByCount";
+        final String coverPhoto = "coverPhoto";
 
         try {
             JSONObject infoJson = new JSONObject(info);
@@ -65,6 +65,8 @@ public class FetchGoogleTask extends AsyncTask <String, Void, String[]> {
             infoList[1] = infoJson.getString(NAME);
             infoList[2] = infoJson.getString(HTML_URL);
             infoList[3] = infoJson.getString(circle);
+            //TODO добавить ветку
+//            infoList[4] = infoJson.getString(coverPhoto);
 
         } catch (JSONException e) {
             e.printStackTrace();
