@@ -36,12 +36,21 @@
     <string name="btn_start_lv">ListView</string>
     <string name="first_task">First hometask</string>
     <string name="second_task">Second hometask</string>
+    <string name="third_hometask">Third hometask</string>
+    <string name="fourth_hometask">Fourth hometask</string>
+
     <string name="btn_start_listview_api">ListView</string>
     <string name="btn_start_recyclerview_api">RecyclerView</string>
     <string name="username">UserName</string>
-    <string name="third_hometask">Third hometask</string>
+
     <string name="image_from_gallery_camera">Image from Gallery/Camera</string>
     <string name="touch_me">Touch me!</string>
     <string name="make_photo_camera">Сделать снимок камерой</string>
     <string name="load_from_gallery">Загрузить из галереи</string>
+    <string name="phone_book">PhoneBook</string>
+
+    <string name="list_contacts">Список контактов</string>
+    <string name="title_activity_phone_book2">PhoneBookActivity2</string>
+    <string name="name">Имя</string>
+    <string name="number">Номер</string>
 </resources>
