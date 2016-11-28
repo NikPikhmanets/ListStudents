@@ -24,8 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:src="@drawable/pikhmanets"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:contentDescription="" />
                 <!--android:layout_centerVertical="true"-->
                 <!--android:layout_centerHorizontal="true" -->
@@ -37,8 +36,7 @@
             android:id="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="8dp"
-            android:layout_margin="8dp"
+            android:padding="4dp"
             android:gravity="center_vertical"
             android:text="@string/username"
             android:textSize="20sp"
@@ -49,7 +47,7 @@
             android:id="@+id/list_description_profile"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4">
+            android:layout_weight="5">
         </ListView>
     </LinearLayout>
 </FrameLayout>

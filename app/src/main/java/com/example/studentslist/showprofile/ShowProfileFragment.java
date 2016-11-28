@@ -1,6 +1,5 @@
 package com.example.studentslist.showprofile;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,19 +8,32 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.studentslist.ProfileInfo;
 import com.example.studentslist.R;
-import com.example.studentslist.allasynctask.FetchGitHubTask;
-import com.example.studentslist.allasynctask.FetchGoogleTask;
-import com.example.studentslist.allasynctask.FetchImageTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.studentslist.R.id.avatar;
+
 public class ShowProfileFragment extends Fragment {
 
+    String GOOGLE_API_KEY = "AIzaSyA-mwyNqHCvmMKEwa_a3OLP1JXz_f8th9g";
+
+    List<ProfileInfo> profileInfo = new ArrayList<>();
     ShowProfileAdapter profileAdapter;
+    ListView listV;
+    ImageView imageView;
+    TextView userName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,84 +45,104 @@ public class ShowProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_show_profile, container, false);
-        ListView listV = (ListView) rootView.findViewById(R.id.list_description_profile);
+        listV = (ListView) rootView.findViewById(R.id.list_description_profile);
+        imageView = (ImageView) rootView.findViewById(avatar);
 
-
-        TextView userName = (TextView) rootView.findViewById(R.id.user_name);
+        userName = (TextView) rootView.findViewById(R.id.user_name);
 
         String googlePlusID = getActivity().getIntent().getStringExtra("googlePlusID");
         String gitHubID = getActivity().getIntent().getStringExtra("gitHubID");
 
-        String[] studentInfo = null;
-        if (googlePlusID != null) {
+         if (googlePlusID != null) {
 
-            FetchGoogleTask fetchGoogleTask = new FetchGoogleTask();
-            fetchGoogleTask.execute(googlePlusID);
-            try {
-                studentInfo = fetchGoogleTask.get();
-            } catch (Exception ignored) {
-            }
+             getInfoGoogleProfile(googlePlusID);
 
         } else if (gitHubID != null) {
 
-            FetchGitHubTask fetchGitHubTask = new FetchGitHubTask();
-            fetchGitHubTask.execute(gitHubID);
+            getInfoGitProfile(gitHubID);
+        } else {
 
-            try {
-                studentInfo = fetchGitHubTask.get();
-            } catch (Exception ignored) {
-            }
-        }
+             Toast.makeText(getContext(), "Нету данных", Toast.LENGTH_SHORT).show();
+             getActivity().finish();
+         }
 
 
-        if (studentInfo != null) {
-            if (!studentInfo[0].equals("null")) {
-                FetchImageTask fetchImageTask = new FetchImageTask(studentInfo[0]);
-                fetchImageTask.execute();
-                try {
-                    Bitmap bitmap = fetchImageTask.get();
-                    ImageView imageView = (ImageView) rootView.findViewById(R.id.avatar);
-                    imageView.setImageBitmap(bitmap);
-                } catch (Exception ignored) {
-                }
-            }
-
-            userName.setText(studentInfo[1]);
-
-            List<ProfileInfo> info = new ArrayList<>();
-            if (googlePlusID != null) {
-
-                    info.add(new ProfileInfo("Ссылка на страницку", studentInfo[2]));
-                    info.add(new ProfileInfo("Круги", studentInfo[3]));
-
-//                    if (!studentInfo[4].equals("null")) {
-//                        FetchImageTask fetchImageTask = new FetchImageTask(studentInfo[0]);
-//                        fetchImageTask.execute();
-//                        try {
-//                            Bitmap bitmap = fetchImageTask.get();
-//                            ImageView imageView = (ImageView) rootView.findViewById(R.id.cover_image);
-//                            imageView.setImageBitmap(bitmap);
-//                        } catch (Exception ignored) {
-//                        }
-//                    }
-
-            } else {
-
-                info.add(new ProfileInfo("LOGIN", studentInfo[2]));
-                info.add(new ProfileInfo("GIT link", studentInfo[3]));
-                info.add(new ProfileInfo("COMPANY", studentInfo[4]));
-                info.add(new ProfileInfo("BLOG", studentInfo[5]));
-                info.add(new ProfileInfo("LOCATION", studentInfo[6]));
-                info.add(new ProfileInfo("Repository", studentInfo[7]));
-                info.add(new ProfileInfo("FOLLOWERS", studentInfo[8]));
-                info.add(new ProfileInfo("FOLLOWING", studentInfo[9]));
-                info.add(new ProfileInfo("CREATED", studentInfo[10]));
-                info.add(new ProfileInfo("UPDATE", studentInfo[11]));
-            }
-
-            profileAdapter = new ShowProfileAdapter(getContext(), info);
-            listV.setAdapter(profileAdapter);
-        }
         return rootView;
+    }
+
+    public void getInfoGoogleProfile(String userId) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://www.googleapis.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        InfoInterface infoInterface = retrofit.create(InfoInterface.class);
+        Call<GoogleInfo> info = infoInterface.googleInfo(userId, GOOGLE_API_KEY);
+        info.enqueue(new Callback<GoogleInfo>() {
+            @Override
+            public void onResponse(Call<GoogleInfo> call, Response<GoogleInfo> response) {
+                String imageURL = response.body().getImage().getUrl().replace("?sz=50", "");
+                Picasso.with(getContext()).load(imageURL).into(imageView);
+
+                if( !response.body().getDisplayName().equals(""))
+                    userName.setText(response.body().getDisplayName());
+
+                profileInfo.add(new ProfileInfo("birthday", response.body().getBirthday()));
+                profileInfo.add(new ProfileInfo("Type", response.body().getObjectType()));
+                profileInfo.add(new ProfileInfo("URL", response.body().getUrl()));
+                profileInfo.add(new ProfileInfo("Circle", response.body().getCircledByCount()));
+
+                profileAdapter = new ShowProfileAdapter(getContext(), profileInfo);
+                listV.setAdapter(profileAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<GoogleInfo> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+
+    public void getInfoGitProfile(String userLogin) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.github.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        InfoInterface infoInterface = retrofit.create(InfoInterface.class);
+        Call<GitInfo> info = infoInterface.gitInfo(userLogin);
+        info.enqueue(new Callback<GitInfo>() {
+            @Override
+            public void onResponse(Call<GitInfo> call, Response<GitInfo> response) {
+                String imageUrl = response.body().getAvatar_url().replace("?v=3", "");
+                Picasso.with(getContext()).load(imageUrl).into(imageView);
+
+                if(response.body().getName() != null)
+                    userName.setText(response.body().getName());
+                else
+                    userName.setText("-//-");
+
+                profileInfo.add(new ProfileInfo("LOGIN", response.body().getLogin()));
+                profileInfo.add(new ProfileInfo("GIT link", response.body().getHtml_url()));
+                profileInfo.add(new ProfileInfo("COMPANY", response.body().getCompany()));
+                profileInfo.add(new ProfileInfo("BLOG", response.body().getBlog()));
+                profileInfo.add(new ProfileInfo("LOCATION", response.body().getLocation()));
+                profileInfo.add(new ProfileInfo("Repository", response.body().getPublic_repos()));
+                profileInfo.add(new ProfileInfo("FOLLOWERS", response.body().getFollowers()));
+                profileInfo.add(new ProfileInfo("FOLLOWING", response.body().getFollowing()));
+                profileInfo.add(new ProfileInfo("CREATED", response.body().getCreated_at()));
+                profileInfo.add(new ProfileInfo("UPDATE", response.body().getUpdated_at()));
+
+                profileAdapter = new ShowProfileAdapter(getContext(), profileInfo);
+                listV.setAdapter(profileAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<GitInfo> call, Throwable t) {
+
+            }
+        });
     }
 }
