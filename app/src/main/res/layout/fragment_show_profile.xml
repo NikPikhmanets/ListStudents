@@ -25,7 +25,7 @@
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="4"
-                android:contentDescription="" />
+                android:contentDescription="@string/avatar" />
                 <!--android:layout_centerVertical="true"-->
                 <!--android:layout_centerHorizontal="true" -->
 
@@ -37,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:padding="4dp"
+            android:textAlignment="center"
             android:gravity="center_vertical"
             android:text="@string/username"
             android:textSize="20sp"

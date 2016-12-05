@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.studentslist.MainActivity;
 import com.example.studentslist.R;
 import com.example.studentslist.Students;
 import com.example.studentslist.showprofile.ShowProfileActivity;
@@ -24,13 +25,11 @@ class ListViewAdapter extends BaseAdapter {
 
     private LayoutInflater lInflater;
     private List<Students> students;
-    private boolean api;
 
-    ListViewAdapter(Context context, List<Students> students, boolean api) {
+    ListViewAdapter(Context context, List<Students> students) {
         this.students = students;
         lInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.api = api;
     }
 
     @Override
@@ -67,7 +66,7 @@ class ListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                if(api){
+                if(MainActivity.getFlagAPI()){
                     intent = new Intent(v.getContext(), ShowProfileActivity.class);
                     intent.putExtra("googlePlusID", students.get(position).googlePlusID);
                     v.getContext().startActivity(intent);
@@ -86,7 +85,7 @@ class ListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                if (api) {
+                if (MainActivity.getFlagAPI()) {
 
                     intent = new Intent(v.getContext(), ShowProfileActivity.class);
                     intent.putExtra("gitHubID", students.get(position).gitHubID);

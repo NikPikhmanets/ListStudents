@@ -2,12 +2,16 @@ package com.example.studentslist.contact;
 
 import android.content.ContentProviderOperation;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
@@ -20,33 +24,76 @@ import android.widget.Toast;
 import com.example.studentslist.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import static android.Manifest.permission.READ_CONTACTS;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.support.v4.app.LoaderManager.LoaderCallbacks;
 
 public class PhoneBookActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, View.OnClickListener {
 
+    private static final int READ_CONTACTS_REQUEST = 1;
+
     private static final String[] COLUMNS_TO_BE_BOUND = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-            ContactsContract.CommonDataKinds.Phone.NUMBER
+            ContactsContract.CommonDataKinds.Phone.NUMBER,
+            ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI
     };
 
     ListView listView;
     FloatingActionButton fab;
     ContactAdapter adapter;
+    Uri photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_book);
-        getSupportLoaderManager().initLoader(1, null, this);
 
         listView = (ListView) findViewById(R.id.lv_phone_book);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
-        adapter = new ContactAdapter(this, new ArrayList<ContactItem>());
-        listView.setAdapter(adapter);
+        if(ActivityCompat.checkSelfPermission(this, READ_CONTACTS) == PERMISSION_GRANTED) {
+            getSupportLoaderManager().initLoader(1, null, this).forceLoad();
+            adapter = new ContactAdapter(this, new ArrayList<ContactItem>());
+            listView.setAdapter(adapter);
+        } else {
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, READ_CONTACTS)){
+                showExplanationDialog();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{READ_CONTACTS}, READ_CONTACTS_REQUEST);
+            }
+        }
+    }
+
+    private void showExplanationDialog() {
+        new AlertDialog.Builder(this)
+                .setMessage("Разрешение на чтение контактов не получено")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(PhoneBookActivity.this, new String[]{READ_CONTACTS}, READ_CONTACTS_REQUEST);
+                    }
+                })
+                .setNeutralButton("Перейти в настройки", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openPermissionSettings();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void openPermissionSettings() {
+        final Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                .addCategory(Intent.CATEGORY_DEFAULT)
+                .setData(Uri.parse("package:" + getPackageName()))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                .addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        startActivity(intent);
     }
 
     @Override
@@ -58,18 +105,25 @@ public class PhoneBookActivity extends AppCompatActivity implements LoaderCallba
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         ArrayList<ContactItem> contacts = new ArrayList<>();
-        List<String> names = new ArrayList<>();
+//        List<String> names = new ArrayList<>();
         data.moveToFirst();
 
         while (data.moveToNext()) {
             String name = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String number = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            if (!names.contains(name)) {
-                names.add(name);
+            String photoThumb = data.getString(data.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
 
-                ContactItem contact = new ContactItem(name, number);
-                contacts.add(contact);
+            if (photoThumb != null) {
+                photo = Uri.parse(photoThumb);
             }
+            else
+                photo = null;
+//            if (!names.contains(name)) {
+//                names.add(name);
+
+                ContactItem contact = new ContactItem(name, number, photo);
+                contacts.add(contact);
+//            }
         }
         adapter.swapCursor(contacts);
     }

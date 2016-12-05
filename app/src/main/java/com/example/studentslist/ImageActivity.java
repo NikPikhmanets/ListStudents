@@ -1,22 +1,20 @@
 package com.example.studentslist;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
 public class ImageActivity extends MainActivity {
 
-    public static final int IDM_CAMERA = 101;
-    public static final int IDM_GALLERY = 102;
+//    public static final int IDM_CAMERA = 101;
+//    public static final int IDM_GALLERY = 102;
 
     ImageView img;
 
@@ -27,34 +25,55 @@ public class ImageActivity extends MainActivity {
 
         img = (ImageView) findViewById(R.id.photo_image);
 
-        registerForContextMenu(img);
+//        registerForContextMenu(img);
+        final FloatingActionsMenu fab = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+        final FloatingActionButton fromGallery = (FloatingActionButton) findViewById(R.id.load_from_gallery);
 
-        img.setOnClickListener(new View.OnClickListener() {
+        fromGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String[] fromItem = {"Camera", "Gallery"};
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(ImageActivity.this);
-                builder.setTitle("Load image from:");
-
-                builder.setItems(fromItem, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-
-                        switch (item) {
-                            case 0:
-                                loadImageFromCamera();
-                                break;
-                            case 1:
-                                loadImageFromGallery();
-                                break;
-                        }
-                    }
-                });
-                builder.setCancelable(true);
-                builder.show();
+                loadImageFromGallery();
+                fab.collapse();
             }
         });
+
+        final FloatingActionButton fromCamera = (FloatingActionButton) findViewById(R.id.load_from_camera);
+        fromCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadImageFromCamera();
+                fab.collapse();
+            }
+        });
+
+
+
+//        img.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final String[] fromItem = {"Camera", "Gallery"};
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(ImageActivity.this);
+//                builder.setTitle("Load image from:");
+//
+//                builder.setItems(fromItem, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int item) {
+//
+//                        switch (item) {
+//                            case 0:
+//                                loadImageFromCamera();
+//                                break;
+//                            case 1:
+//                                loadImageFromGallery();
+//                                break;
+//                        }
+//                    }
+//                });
+//                builder.setCancelable(true);
+//                builder.show();
+//            }
+//        });
 
     }
 
@@ -91,27 +110,27 @@ public class ImageActivity extends MainActivity {
         }
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        menu.add(Menu.NONE, IDM_CAMERA, Menu.NONE, "Сделать снимок камерой");
-        menu.add(Menu.NONE, IDM_GALLERY, Menu.NONE, "Загрузить изобр. из галереи");
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case IDM_CAMERA:
-                loadImageFromCamera();
-                break;
-            case IDM_GALLERY:
-                loadImageFromGallery();
-                break;
-            default:
-                return super.onContextItemSelected(item);
-        }
-        return true;
-    }
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//        super.onCreateContextMenu(menu, v, menuInfo);
+//
+//        menu.add(Menu.NONE, IDM_CAMERA, Menu.NONE, "Сделать снимок камерой");
+//        menu.add(Menu.NONE, IDM_GALLERY, Menu.NONE, "Загрузить изобр. из галереи");
+//    }
+//
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//
+//        switch (item.getItemId()) {
+//            case IDM_CAMERA:
+//                loadImageFromCamera();
+//                break;
+//            case IDM_GALLERY:
+//                loadImageFromGallery();
+//                break;
+//            default:
+//                return super.onContextItemSelected(item);
+//        }
+//        return true;
+//    }
 }

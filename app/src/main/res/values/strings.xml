@@ -44,7 +44,7 @@
     <string name="username">UserName</string>
 
     <string name="image_from_gallery_camera">Image from Gallery/Camera</string>
-    <string name="touch_me">Touch me!</string>
+    <string name="help">Чтобы добавить изображение нажмите кнопку снизу!</string>
     <string name="make_photo_camera">Сделать снимок камерой</string>
     <string name="load_from_gallery">Загрузить из галереи</string>
     <string name="phone_book">PhoneBook</string>
@@ -53,4 +53,9 @@
     <string name="title_activity_phone_book2">PhoneBookActivity2</string>
     <string name="name">Имя</string>
     <string name="number">Номер</string>
+    <string name="image">Image</string>
+    <string name="delete_contact">Удалить контакт</string>
+    <string name="ivanov_ivan">Ivanov Ivan</string>
+    <string name="exam_number">+38000000000</string>
+    <string name="avatar">avatar</string>
 </resources>

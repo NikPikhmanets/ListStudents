@@ -11,10 +11,9 @@ import com.example.studentslist.contact.PhoneBookActivity;
 import com.example.studentslist.listview.ListViewActivity;
 import com.example.studentslist.recyclerview.RecyclerViewActivity;
 
-import static com.example.studentslist.R.id.PhoneBookBtn;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static boolean API;
     Button buttonListView;
     Button buttonRecyclerView;
 
@@ -31,26 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        buttonListView = (Button) findViewById(R.id.start_lv_activity);
-        buttonRecyclerView = (Button) findViewById(R.id.start_rv_activity);
-        buttonListViewApi = (Button) findViewById(R.id.start_lv_activity_api);
-        buttonRecyclerViewApi = (Button) findViewById(R.id.start_rv_activity_api);
-        imageButton = (Button) findViewById(R.id.image_button);
-        phoneButton = (Button) findViewById(R.id.PhoneBookBtn);
-
-        buttonListView.setOnClickListener(this);
-        buttonRecyclerView.setOnClickListener(this);
-        buttonListViewApi.setOnClickListener(this);
-        buttonRecyclerViewApi.setOnClickListener(this);
-        imageButton.setOnClickListener(this);
-        phoneButton.setOnClickListener(this);
-
+        initButton();
         myReceiver = new EventsReceiver();
-
-//        Intent intent = getIntent();
-//        if (intent.getAction() != null) {
-//            Toast.makeText(this, "opa", Toast.LENGTH_SHORT).show();
-//        }
     }
 
     public void onClick(View v) {
@@ -59,17 +40,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.start_lv_activity:
                 intent = new Intent(this, ListViewActivity.class);
-                intent.putExtra("api", false);
+//                intent.putExtra("api", false);
+                setFlagAPI(false);
                 startActivity(intent);
                 break;
             case R.id.start_rv_activity:
                 intent = new Intent(this, RecyclerViewActivity.class);
                 intent.putExtra("api", false);
+                setFlagAPI(false);
                 startActivity(intent);
                 break;
             case R.id.start_lv_activity_api:
                 intent = new Intent(this, ListViewActivity.class);
                 intent.putExtra("api", true);
+                setFlagAPI(true);
                 startActivity(intent);
                 break;
             case R.id.start_rv_activity_api:
@@ -81,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent = new Intent(this, ImageActivity.class);
                 startActivity(intent);
                 break;
-            case PhoneBookBtn:
+            case R.id.PhoneBookBtn:
                 intent = new Intent(this, PhoneBookActivity.class);
                 startActivity(intent);
                 break;
@@ -99,5 +83,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         unregisterReceiver(myReceiver);
         super.onPause();
+    }
+    private void initButton(){
+
+        buttonListView = (Button) findViewById(R.id.start_lv_activity);
+        buttonRecyclerView = (Button) findViewById(R.id.start_rv_activity);
+        buttonListViewApi = (Button) findViewById(R.id.start_lv_activity_api);
+        buttonRecyclerViewApi = (Button) findViewById(R.id.start_rv_activity_api);
+        imageButton = (Button) findViewById(R.id.image_button);
+        phoneButton = (Button) findViewById(R.id.PhoneBookBtn);
+
+        buttonListView.setOnClickListener(this);
+        buttonRecyclerView.setOnClickListener(this);
+        buttonListViewApi.setOnClickListener(this);
+        buttonRecyclerViewApi.setOnClickListener(this);
+        imageButton.setOnClickListener(this);
+        phoneButton.setOnClickListener(this);
+    }
+
+    public static boolean getFlagAPI(){
+        return API;
+    }
+
+    private void setFlagAPI(boolean api){
+        API = api;
     }
 }

@@ -121,8 +121,6 @@ public class ShowProfileFragment extends Fragment {
 
                 if(response.body().getName() != null)
                     userName.setText(response.body().getName());
-                else
-                    userName.setText("-//-");
 
                 profileInfo.add(new ProfileInfo("LOGIN", response.body().getLogin()));
                 profileInfo.add(new ProfileInfo("GIT link", response.body().getHtml_url()));
