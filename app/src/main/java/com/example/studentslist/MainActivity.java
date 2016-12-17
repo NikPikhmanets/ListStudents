@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.studentslist.contact.PhoneBookActivity;
 import com.example.studentslist.listview.ListViewActivity;
+import com.example.studentslist.realm.RealmActivity;
 import com.example.studentslist.recyclerview.RecyclerViewActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button imageButton;
     Button phoneButton;
+    Button realmButton;
 
     private EventsReceiver myReceiver;
 
@@ -69,8 +71,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent = new Intent(this, PhoneBookActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.realmListBtn:
+                intent = new Intent(this, RealmActivity.class);
+                startActivity(intent);
+                break;
         }
     }
+
 
     @Override
     protected void onResume() {
@@ -84,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         unregisterReceiver(myReceiver);
         super.onPause();
     }
-    private void initButton(){
+
+    private void initButton() {
 
         buttonListView = (Button) findViewById(R.id.start_lv_activity);
         buttonRecyclerView = (Button) findViewById(R.id.start_rv_activity);
@@ -92,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonRecyclerViewApi = (Button) findViewById(R.id.start_rv_activity_api);
         imageButton = (Button) findViewById(R.id.image_button);
         phoneButton = (Button) findViewById(R.id.PhoneBookBtn);
+        realmButton = (Button) findViewById(R.id.realmListBtn);
 
         buttonListView.setOnClickListener(this);
         buttonRecyclerView.setOnClickListener(this);
@@ -99,13 +108,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonRecyclerViewApi.setOnClickListener(this);
         imageButton.setOnClickListener(this);
         phoneButton.setOnClickListener(this);
+        realmButton.setOnClickListener(this);
     }
 
-    public static boolean getFlagAPI(){
+    public static boolean getFlagAPI() {
         return API;
     }
 
-    private void setFlagAPI(boolean api){
+    private void setFlagAPI(boolean api) {
         API = api;
     }
 }

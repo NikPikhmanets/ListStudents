@@ -13,6 +13,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name=".realm.data.App"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -56,6 +57,9 @@
             android:name=".ImageActivity"
             android:label="@string/image_from_gallery_camera" />
         <activity android:name=".contact.PhoneBookActivity" />
+        <activity android:name=".realm.RealmActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>

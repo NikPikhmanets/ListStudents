@@ -58,4 +58,7 @@
     <string name="ivanov_ivan">Ivanov Ivan</string>
     <string name="exam_number">+38000000000</string>
     <string name="avatar">avatar</string>
+    <string name="five_hometask">Five hometask</string>
+    <string name="realm_list_students">Realm List Students</string>
+    <string name="search_hint">поиск</string>
 </resources>
