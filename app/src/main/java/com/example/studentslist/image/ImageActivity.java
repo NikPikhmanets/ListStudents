@@ -1,4 +1,4 @@
-package com.example.studentslist;
+package com.example.studentslist.image;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,6 +8,8 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.studentslist.MainActivity;
+import com.example.studentslist.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 

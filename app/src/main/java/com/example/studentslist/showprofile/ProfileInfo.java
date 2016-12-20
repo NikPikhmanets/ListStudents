@@ -1,4 +1,4 @@
-package com.example.studentslist;
+package com.example.studentslist.showprofile;
 
 
 public class ProfileInfo {

@@ -6,7 +6,7 @@
     android:id="@+id/activity_image"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ImageActivity">
+    tools:context=".image.ImageActivity">
 
     <TextView
         android:layout_width="wrap_content"

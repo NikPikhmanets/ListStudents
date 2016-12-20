@@ -57,7 +57,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ImageActivity"
+            android:name=".image.ImageActivity"
             android:label="@string/image_from_gallery_camera" />
         <activity android:name=".contact.PhoneBookActivity" />
         <activity

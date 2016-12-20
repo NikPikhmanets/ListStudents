@@ -58,23 +58,25 @@ class ListViewAdapter extends BaseAdapter {
         ((ImageView) view.findViewById(R.id.img)).setImageResource(students.get(position).photo);
         ((TextView) view.findViewById(R.id.studentName)).setText(students.get(position).name);
 
-        Button gitButton = (Button)view.findViewById(gitBtn);
+        Button gitButton = (Button) view.findViewById(gitBtn);
 
         gitButton.setOnClickListener(new View.OnClickListener() {
 
             Intent intent;
+
             @Override
             public void onClick(View v) {
-
-                if(MainActivity.getFlagAPI()){
-                    intent = new Intent(v.getContext(), ShowProfileActivity.class);
-                    intent.putExtra("googlePlusID", students.get(position).googlePlusID);
-                    v.getContext().startActivity(intent);
-                }
-                else {
-                    Uri address = Uri.parse("https://github.com/" + students.get(position).gitHubID);
-                    Intent link = new Intent(Intent.ACTION_VIEW, address);
-                    v.getContext().startActivity(link);
+                switch (MainActivity.getParameter()) {
+                    case 0:
+                        Uri address = Uri.parse("https://github.com/" + students.get(position).gitHubID);
+                        Intent link = new Intent(Intent.ACTION_VIEW, address);
+                        v.getContext().startActivity(link);
+                        break;
+                    case 1:
+                        intent = new Intent(v.getContext(), ShowProfileActivity.class);
+                        intent.putExtra("gitHubID", students.get(position).gitHubID);
+                        v.getContext().startActivity(intent);
+                        break;
                 }
             }
         });
@@ -82,19 +84,21 @@ class ListViewAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
 
             Intent intent;
+
             @Override
             public void onClick(View v) {
 
-                if (MainActivity.getFlagAPI()) {
-
-                    intent = new Intent(v.getContext(), ShowProfileActivity.class);
-                    intent.putExtra("gitHubID", students.get(position).gitHubID);
-                    v.getContext().startActivity(intent);
-                } else {
-
-                    Uri address = Uri.parse("https://plus.google.com/" + students.get(position).googlePlusID);
-                    Intent link = new Intent(Intent.ACTION_VIEW, address);
-                    v.getContext().startActivity(link);
+                switch (MainActivity.getParameter()) {
+                    case 0:
+                        Uri address = Uri.parse("https://plus.google.com/" + students.get(position).googlePlusID);
+                        Intent link = new Intent(Intent.ACTION_VIEW, address);
+                        v.getContext().startActivity(link);
+                        break;
+                    case 1:
+                        intent = new Intent(v.getContext(), ShowProfileActivity.class);
+                        intent.putExtra("googlePlusID", students.get(position).googlePlusID);
+                        v.getContext().startActivity(intent);
+                        break;
                 }
             }
         });

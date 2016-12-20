@@ -12,7 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.studentslist.ProfileInfo;
 import com.example.studentslist.R;
 import com.squareup.picasso.Picasso;
 
@@ -25,8 +24,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.studentslist.R.id.avatar;
-
 public class ShowProfileFragment extends Fragment {
 
     String GOOGLE_API_KEY = "AIzaSyA-mwyNqHCvmMKEwa_a3OLP1JXz_f8th9g";
@@ -34,7 +31,8 @@ public class ShowProfileFragment extends Fragment {
     List<ProfileInfo> profileInfo = new ArrayList<>();
     ShowProfileAdapter profileAdapter;
     ListView listV;
-    ImageView imageView;
+    ImageView imageAvatar;
+    ImageView coverPhoto;
     TextView userName;
     LinearLayout fragmentLayout;
     ProgressBar progressBar;
@@ -50,7 +48,8 @@ public class ShowProfileFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_show_profile, container, false);
         listV = (ListView) rootView.findViewById(R.id.list_description_profile);
-        imageView = (ImageView) rootView.findViewById(avatar);
+        imageAvatar = (ImageView) rootView.findViewById(R.id.avatar);
+        coverPhoto = (ImageView) rootView.findViewById(R.id.cover_image);
 
         userName = (TextView) rootView.findViewById(R.id.user_name);
         fragmentLayout = (LinearLayout) rootView.findViewById(R.id.fragment_layout);
@@ -86,7 +85,12 @@ public class ShowProfileFragment extends Fragment {
             @Override
             public void onResponse(Call<StudentGoogleInfo> call, Response<StudentGoogleInfo> response) {
                 String imageURL = response.body().getImage().getUrl().replace("?sz=50", "");
-                Picasso.with(getContext()).load(imageURL).into(imageView);
+                Picasso.with(getContext()).load(imageURL).into(imageAvatar);
+                imageURL = null;
+                if(response.body().getCover() != null)
+                    imageURL = response.body().getCover().getCoverPhoto().getUrl();
+                    if(imageURL != null)
+                        Picasso.with(getContext()).load(imageURL).into(coverPhoto);
 
                 if( !response.body().getDisplayName().equals(""))
                     userName.setText(response.body().getDisplayName());
@@ -133,7 +137,7 @@ public class ShowProfileFragment extends Fragment {
             @Override
             public void onResponse(Call<StudentGitInfo> call, Response<StudentGitInfo> response) {
                 String imageUrl = response.body().getAvatar_url().replace("?v=3", "");
-                Picasso.with(getContext()).load(imageUrl).into(imageView);
+                Picasso.with(getContext()).load(imageUrl).into(imageAvatar);
 
                 if(response.body().getName() != null)
                     userName.setText(response.body().getName());

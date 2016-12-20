@@ -1,5 +1,9 @@
 package com.example.studentslist.showprofile;
 
+import com.example.studentslist.showprofile.gson.Cover;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 class StudentGoogleInfo {
 
     private String birthday;
@@ -17,7 +21,7 @@ class StudentGoogleInfo {
         return displayName;
     }
 
-    public String getObjectType() {
+    String getObjectType() {
         return objectType;
     }
 
@@ -40,5 +44,13 @@ class StudentGoogleInfo {
         String getUrl() {
             return url;
         }
+    }
+
+    @SerializedName("cover")
+    @Expose
+    private Cover cover;
+
+    public Cover getCover() {
+        return cover;
     }
 }

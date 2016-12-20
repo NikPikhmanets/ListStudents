@@ -13,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.studentslist.MainActivity;
-import com.example.studentslist.showprofile.ShowProfileActivity;
 import com.example.studentslist.R;
 import com.example.studentslist.Students;
+import com.example.studentslist.showprofile.ShowProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,23 +71,29 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.Stude
             Intent intent;
             if (v.getId() == itemView.getId()) {
 
-                if(MainActivity.getFlagAPI()){
-                    intent = new Intent(context, ShowProfileActivity.class);
-                    intent.putExtra("googlePlusID", students.get(getAdapterPosition()).googlePlusID);
-                    context.startActivity(intent);
+                switch (MainActivity.getParameter()) {
+                    case 0:
+                        openGoogleProfile(getAdapterPosition());
+                        break;
+                    case 1:
+                        intent = new Intent(context, ShowProfileActivity.class);
+                        intent.putExtra("googlePlusID", students.get(getAdapterPosition()).googlePlusID);
+                        context.startActivity(intent);
+                        break;
                 }
-                else
-                    openGoogleProfile(getAdapterPosition());
 
             } else if (v.getId() == gitBtn.getId()) {
 
-                if(MainActivity.getFlagAPI()){
-                    intent = new Intent(context, ShowProfileActivity.class);
-                    intent.putExtra("gitHubID", students.get(getAdapterPosition()).gitHubID);
-                    context.startActivity(intent);
+                switch (MainActivity.getParameter()) {
+                    case 0:
+                        openGitHubProfile(getAdapterPosition());
+                        break;
+                    case 1:
+                        intent = new Intent(context, ShowProfileActivity.class);
+                        intent.putExtra("gitHubID", students.get(getAdapterPosition()).gitHubID);
+                        context.startActivity(intent);
+                        break;
                 }
-                else
-                    openGitHubProfile(getAdapterPosition());
             }
         }
 

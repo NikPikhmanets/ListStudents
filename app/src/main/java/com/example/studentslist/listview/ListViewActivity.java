@@ -20,7 +20,6 @@ public class ListViewActivity extends MainActivity {
 
         final List<Students> students = new Students().getStudents();
 
-        // TODO: 08.11.2016  добавить определение api (true/false)
         ListViewAdapter listViewAdapter = new ListViewAdapter(this, students);
         listV.setAdapter(listViewAdapter);
     }
