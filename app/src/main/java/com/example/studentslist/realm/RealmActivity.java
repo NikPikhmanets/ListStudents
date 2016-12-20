@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SearchView;
+import android.support.v7.widget.SearchView;
 
 import com.example.studentslist.R;
 import com.example.studentslist.realm.data.User;
@@ -48,7 +48,7 @@ public class RealmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_realm);
 
         Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-//        mActionBarToolbar.setTitle("Realm");
+        mActionBarToolbar.setTitle("Realm");
         setSupportActionBar(mActionBarToolbar);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rvRealmUsers);

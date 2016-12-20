@@ -1,6 +1,6 @@
 package com.example.studentslist.showprofile;
 
-class GoogleInfo {
+class StudentGoogleInfo {
 
     private String birthday;
     private String displayName;

@@ -4,7 +4,7 @@ package com.example.studentslist.showprofile;
  * Created by Николай on 28.11.2016.
  */
 
-public class GitInfo {
+public class StudentGitInfo {
 
     private String login;
     private String id;

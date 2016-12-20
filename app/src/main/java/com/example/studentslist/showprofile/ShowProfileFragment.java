@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,8 @@ public class ShowProfileFragment extends Fragment {
     ListView listV;
     ImageView imageView;
     TextView userName;
+    LinearLayout fragmentLayout;
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,8 @@ public class ShowProfileFragment extends Fragment {
         imageView = (ImageView) rootView.findViewById(avatar);
 
         userName = (TextView) rootView.findViewById(R.id.user_name);
+        fragmentLayout = (LinearLayout) rootView.findViewById(R.id.fragment_layout);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 
         String googlePlusID = getActivity().getIntent().getStringExtra("googlePlusID");
         String gitHubID = getActivity().getIntent().getStringExtra("gitHubID");
@@ -65,8 +71,6 @@ public class ShowProfileFragment extends Fragment {
              Toast.makeText(getContext(), "Нету данных", Toast.LENGTH_SHORT).show();
              getActivity().finish();
          }
-
-
         return rootView;
     }
 
@@ -77,10 +81,10 @@ public class ShowProfileFragment extends Fragment {
                 .build();
 
         InfoInterface infoInterface = retrofit.create(InfoInterface.class);
-        Call<GoogleInfo> info = infoInterface.googleInfo(userId, GOOGLE_API_KEY);
-        info.enqueue(new Callback<GoogleInfo>() {
+        Call<StudentGoogleInfo> info = infoInterface.googleInfo(userId, GOOGLE_API_KEY);
+        info.enqueue(new Callback<StudentGoogleInfo>() {
             @Override
-            public void onResponse(Call<GoogleInfo> call, Response<GoogleInfo> response) {
+            public void onResponse(Call<StudentGoogleInfo> call, Response<StudentGoogleInfo> response) {
                 String imageURL = response.body().getImage().getUrl().replace("?sz=50", "");
                 Picasso.with(getContext()).load(imageURL).into(imageView);
 
@@ -94,15 +98,27 @@ public class ShowProfileFragment extends Fragment {
 
                 profileAdapter = new ShowProfileAdapter(getContext(), profileInfo);
                 listV.setAdapter(profileAdapter);
+
+                viewProgressBar(true);
             }
 
             @Override
-            public void onFailure(Call<GoogleInfo> call, Throwable t) {
+            public void onFailure(Call<StudentGoogleInfo> call, Throwable t) {
 
             }
         });
     }
 
+    private void viewProgressBar(boolean view) {
+        if(view) {
+            progressBar.setVisibility(View.INVISIBLE);
+            fragmentLayout.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
+            fragmentLayout.setVisibility(View.INVISIBLE);
+        }
+
+    }
 
 
     public void getInfoGitProfile(String userLogin) {
@@ -112,10 +128,10 @@ public class ShowProfileFragment extends Fragment {
                 .build();
 
         InfoInterface infoInterface = retrofit.create(InfoInterface.class);
-        Call<GitInfo> info = infoInterface.gitInfo(userLogin);
-        info.enqueue(new Callback<GitInfo>() {
+        Call<StudentGitInfo> info = infoInterface.gitInfo(userLogin);
+        info.enqueue(new Callback<StudentGitInfo>() {
             @Override
-            public void onResponse(Call<GitInfo> call, Response<GitInfo> response) {
+            public void onResponse(Call<StudentGitInfo> call, Response<StudentGitInfo> response) {
                 String imageUrl = response.body().getAvatar_url().replace("?v=3", "");
                 Picasso.with(getContext()).load(imageUrl).into(imageView);
 
@@ -135,12 +151,20 @@ public class ShowProfileFragment extends Fragment {
 
                 profileAdapter = new ShowProfileAdapter(getContext(), profileInfo);
                 listV.setAdapter(profileAdapter);
+
+                viewProgressBar(true);
             }
 
             @Override
-            public void onFailure(Call<GitInfo> call, Throwable t) {
+            public void onFailure(Call<StudentGitInfo> call, Throwable t) {
 
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        viewProgressBar(false);
+        super.onStart();
     }
 }

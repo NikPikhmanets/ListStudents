@@ -11,8 +11,8 @@ import retrofit2.http.Query;
 
 public interface InfoInterface {
     @GET("users/{username}")
-    Call<GitInfo> gitInfo(@Path("username") String username);
+    Call<StudentGitInfo> gitInfo(@Path("username") String username);
 
     @GET("plus/v1/people/{username}")
-    Call<GoogleInfo> googleInfo(@Path("username") String username, @Query("key") String api);
+    Call<StudentGoogleInfo> googleInfo(@Path("username") String username, @Query("key") String api);
 }
