@@ -58,7 +58,6 @@ public class User extends RealmObject {
         this.linkGit = linkGit;
     }
 
-
     public List<User> getUserList() {
         List<User> userList = new ArrayList<>();;
         initialiseRealmData(userList);

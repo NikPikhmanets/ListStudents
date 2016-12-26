@@ -3,11 +3,12 @@ package com.example.studentslist.realm;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.SearchView;
 
 import com.example.studentslist.R;
 import com.example.studentslist.realm.data.User;
@@ -26,6 +27,7 @@ public class RealmActivity extends AppCompatActivity {
     private RealmResults<User> resaultUser;
 
     private Realm realm;
+
     private final RealmChangeListener<RealmResults<User>> changeListener = new RealmChangeListener<RealmResults<User>>() {
         @Override
         public void onChange(RealmResults<User> element) {
@@ -52,6 +54,7 @@ public class RealmActivity extends AppCompatActivity {
         setSupportActionBar(mActionBarToolbar);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rvRealmUsers);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
 
         realm = Realm.getDefaultInstance();
@@ -90,8 +93,8 @@ public class RealmActivity extends AppCompatActivity {
 
         RealmResults<User> searchUsers = realm
                 .where(User.class)
-                .contains("searchName", name.toLowerCase())
-                .findAllSorted("searchName", Sort.ASCENDING);
+                .contains("name", name)
+                .findAllSorted("name", Sort.ASCENDING);
         realm.close();
         return searchUsers;
     }
@@ -106,7 +109,7 @@ public class RealmActivity extends AppCompatActivity {
                 new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        realm.copyToRealmOrUpdate(users);
+                        realm.insertOrUpdate(users);
                     }
                 }
         );
